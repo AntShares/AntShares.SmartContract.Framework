@@ -128,6 +128,30 @@ namespace Neo.Compiler
                 instructions.RebuildOffsets();
                 if (!Options.NoOptimize) Optimizer.CompressJumps(instructions);
                 instructions.RebuildOperands();
+
+                var manifest = CreateManifest();
+
+                // Verify manifest
+
+                try
+                {
+                    SmartContract.Manifest.ContractAbi.FromJson(manifest["abi"]);
+                }
+                catch
+                {
+                    diagnostics.Add(new CompilationException(DiagnosticId.InvalidAbi, $"The generated Abi it's not valid.").Diagnostic);
+                    return;
+                }
+
+                try
+                {
+                    SmartContract.Manifest.ContractManifest.Parse(manifest.ToString(false));
+                }
+                catch
+                {
+                    diagnostics.Add(new CompilationException(DiagnosticId.InvalidManifest, $"The generated manifest it's not valid.").Diagnostic);
+                    return;
+                }
             }
         }
 
