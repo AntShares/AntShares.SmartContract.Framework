@@ -4,7 +4,7 @@ using Neo.SmartContract;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Neo.Compiler.CSharp.UnitTests.Utils
+namespace Neo.TestingEngine
 {
     public class TestDataCache : DataCache
     {
@@ -53,6 +53,18 @@ namespace Neo.Compiler.CSharp.UnitTests.Utils
         protected override void UpdateInternal(StorageKey key, StorageItem value)
         {
             dict[key] = value;
+        }
+
+        /// <summary>
+        /// Include a new value to the storage for unit test
+        /// </summary>
+        public void AddForTest(StorageKey key, StorageItem value)
+        {
+            if (Contains(key))
+            {
+                Delete(key);
+            }
+            Add(key, value);
         }
     }
 }

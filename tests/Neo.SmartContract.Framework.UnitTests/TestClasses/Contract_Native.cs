@@ -75,3 +75,4 @@ namespace Neo.SmartContract.Framework.UnitTests.TestClasses
         }
     }
 }
+

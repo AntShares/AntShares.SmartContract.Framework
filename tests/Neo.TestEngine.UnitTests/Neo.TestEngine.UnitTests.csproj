@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Neo.TestEngine.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.5" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.5" />
+    <PackageReference Include="coverlet.collector" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Neo.TestEngine\Neo.TestEngine.csproj" />
+  </ItemGroup>
+
+  <Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+    <!--
+    The unified Neo domain model defines types with the same fully namespace qualified name in different assemblies.
+    Specifying a reference alias allows us to disambiguate types with colliding names.
+    Official docs: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern-alias
+
+    For NuGet imported packages, specifying an alias requires this target tag to work properly.
+    -->
+    <ItemGroup>
+      <ReferencePath Condition="'%(FileName)' == 'Neo.SmartContract.Framework'">
+        <Aliases>neo</Aliases>
+      </ReferencePath>
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <Compile Remove="TestClasses\*.cs" />
+    <None Include="TestClasses\*.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

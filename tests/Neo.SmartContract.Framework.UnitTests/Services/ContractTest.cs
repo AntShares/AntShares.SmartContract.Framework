@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neo.Compiler.CSharp.UnitTests.Utils;
+using Neo.TestingEngine;
 using Neo.IO;
 using Neo.Network.P2P.Payloads;
 using Neo.SmartContract.Manifest;

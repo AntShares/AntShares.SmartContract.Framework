@@ -148,6 +148,19 @@ namespace Neo.Compiler
             return Compile(sourceFiles, references, options);
         }
 
+        public static CompilationContext CompileSources(string[] sourceFiles, List<MetadataReference> extraReferences, Options options)
+        {
+            List<MetadataReference> references = new(commonReferences);
+            foreach (var extraRef in extraReferences)
+            {
+                if (!references.Contains(extraRef))
+                {
+                    references.Add(extraRef);
+                }
+            }
+            return Compile(sourceFiles, references, options);
+        }
+
         public static Compilation GetCompilation(string csproj, out string assemblyName)
         {
             string folder = Path.GetDirectoryName(csproj)!;

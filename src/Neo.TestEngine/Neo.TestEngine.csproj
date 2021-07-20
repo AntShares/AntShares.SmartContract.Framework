@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyTitle>Neo.TestEngine</AssemblyTitle>
+    <OutputType>Exe</OutputType>
+    <PackageId>Neo.TestEngine</PackageId>
+    <RootNamespace>Neo.TestingEngine</RootNamespace>
+    <Nullable>enable</Nullable>
+    <PackageTags>NEO;Blockchain;Smart Contract</PackageTags>
+    <PackageProjectUrl>https://github.com/neo-project/neo-devpack-dotnet</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/neo-project/neo-devpack-dotnet.git</RepositoryUrl>
+    <Company>The Neo Project</Company>
+    <Product>TestingEngine</Product>
+    <Description>TestingEngine</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Neo" Version="3.0.0-rc4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Neo.Compiler.CSharp\Neo.Compiler.CSharp.csproj" />
+    <ProjectReference Include="..\Neo.SmartContract.Framework\Neo.SmartContract.Framework.csproj" />
+  </ItemGroup>
+
+  <Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+    <!--
+    The unified Neo domain model defines types with the same fully namespace qualified name in different assemblies.
+    Specifying a reference alias allows us to disambiguate types with colliding names.
+    Official docs: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/extern-alias
+
+    For NuGet imported packages, specifying an alias requires this target tag to work properly.
+    -->
+    <ItemGroup>
+      <ReferencePath Condition="'%(FileName)' == 'Neo.SmartContract.Framework'">
+        <Aliases>neo</Aliases>
+      </ReferencePath>
+    </ItemGroup>
+  </Target>
+
+</Project>
