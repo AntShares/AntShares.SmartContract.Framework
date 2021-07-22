@@ -69,6 +69,18 @@ namespace Neo.Compiler.CSharp.UnitTests
         }
 
         [TestMethod]
+        public void byteStringConcat_Test()
+        {
+            using var testengine = new TestEngine();
+            testengine.AddEntryScript("./TestClasses/Contract_Types.cs");
+            var result = testengine.ExecuteTestCaseStandard("concatByteString", "1", "2");
+
+            var item = result.Pop();
+            Assert.IsInstanceOfType(item, typeof(ByteString));
+            Assert.AreEqual("1212", item.GetString());
+        }
+
+        [TestMethod]
         public void bigInteer_Test()
         {
             using var testengine = new TestEngine(snapshot: new TestDataCache());

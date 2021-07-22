@@ -51,5 +51,8 @@ namespace Neo.SmartContract.Framework
 
         [OpCode(OpCode.CONVERT, StackItemType.ByteString)]
         public static extern explicit operator ByteString(BigInteger integer);
+
+        [OpCode(OpCode.CAT)]
+        public static extern ByteString operator +(ByteString a);
     }
 }
